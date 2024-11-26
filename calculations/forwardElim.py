@@ -8,7 +8,7 @@ def forward_elimination(size, A, B, sig_figs):
         for i in range(k + 1, size):
             factor = A[i][k] / A[k][k]
             rounded_factor = Round_off(factor, sig_figs)
-            multipliers.append(f"m{i+1}{k+1} = {rounded_factor}")
+            multipliers.append(rounded_factor)
             for j in range(k, size):  
                 A[i][j] -= factor * A[k][j]
                 A[i][j] = Round_off(A[i][j], sig_figs)
