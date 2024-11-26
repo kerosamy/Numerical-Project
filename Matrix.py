@@ -23,7 +23,7 @@ class Ui_Dialog(object):
         font.setBold(True)
         self.topLabel.setFont(font)
         self.topLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.topLabel.setStyleSheet("color: blue;")
+        self.topLabel.setStyleSheet("color: white;")
 
      
         self.leftLayout.addWidget(self.topLabel)

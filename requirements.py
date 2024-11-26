@@ -9,10 +9,10 @@ class Ui_jacobi(object):
         
         # Main layout
         self.main_layout = QtWidgets.QVBoxLayout(Dialog)
-
+  
         # Title section
         self.label = QtWidgets.QLabel("Initial Guess", parent=Dialog)
-        self.label.setStyleSheet("color:blue;font-size: 30px;font-weight: bold;")  # Green color
+        self.label.setStyleSheet("color:white;font-size: 30px;font-weight: bold;")  # Green color
         self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(self.label)
 
@@ -27,7 +27,7 @@ class Ui_jacobi(object):
 
         # Stopping condition label
         self.label_2 = QtWidgets.QLabel("Stopping Condition", parent=Dialog)
-        self.label_2.setStyleSheet("color:blue;font-size: 30px;font-weight: bold;")  # Pink color
+        self.label_2.setStyleSheet("color:white;font-size: 30px;font-weight: bold;")  # Pink color
         self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(self.label_2)
 

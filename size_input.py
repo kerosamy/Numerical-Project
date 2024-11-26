@@ -6,7 +6,6 @@ from PyQt6.QtWidgets import QWidget
 class Ui_Size(object):
     def setupUi(self, Size,parent):
         self.parent = parent 
-        
         Size.setObjectName("Size")
         Size.resize(465, 365)
         Size.setStyleSheet("background-color:#2e2e2d;")
@@ -17,7 +16,7 @@ class Ui_Size(object):
         font.setPointSize(20)
         font.setBold(True)
         self.enter_quote.setFont(font)
-        self.enter_quote.setStyleSheet("color:blue")
+        self.enter_quote.setStyleSheet("color:white")
         self.enter_quote.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.enter_quote.setObjectName("enter_quote")
         self.verticalLayout.addWidget(self.enter_quote)
@@ -44,7 +43,7 @@ class Ui_Size(object):
         font.setPointSize(20)
         font.setBold(True)
         self.enter_quote_signigicant.setFont(font)
-        self.enter_quote_signigicant.setStyleSheet("color:blue")
+        self.enter_quote_signigicant.setStyleSheet("color:white")
         self.enter_quote_signigicant.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.enter_quote_signigicant.setObjectName("enter_quote_signigicant")
         self.verticalLayout.addWidget(self.enter_quote_signigicant)

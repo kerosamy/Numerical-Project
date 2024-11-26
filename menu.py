@@ -19,7 +19,7 @@ class Ui_Form(object):
         font.setBold(True)
         font.setItalic(True)
         self.Welcome.setFont(font)
-        self.Welcome.setStyleSheet("color:blue;")
+        self.Welcome.setStyleSheet("color:white;")
         
         self.Welcome.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.Welcome.setObjectName("Welcome")
