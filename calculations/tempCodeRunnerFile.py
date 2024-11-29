@@ -22,8 +22,6 @@ def doolittle_lu_solve(n, A, B,sig_figs):
                     return "ahh ya bared"
                 L[j, i] = (A[j, i] - sum(L[j, k] * U[k, i] for k in range(i))) / U[i, i]
                 
-
-                
                 
         Y = forward_substitution(n, L, B, sig_figs)
         
@@ -48,5 +46,4 @@ B = np.array([1, 2, 3, 4, 5])
 
 print(np.linalg.det(A))
 print( doolittle_lu_solve(len(A[0]),A, B,5))
-print(doolittle_lu_solve(len(A[0]),A, B,5)[0][0])
 
