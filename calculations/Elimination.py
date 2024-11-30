@@ -1,23 +1,26 @@
 from partialPiv import partial_pivoting
 from roundOff import Round_off
+import numpy as np
 
 def forward_elimination(size, A, B, sig_figs):
-    multipliers = []  
+    multipliers = [] 
     for k in range(size):
         partial_pivoting(A, B, size, k)
+        if A[k][k] == 0 or abs(A[k][k]) < 1e-10:
+            raise ValueError("Pivot is too small or zero")
         for i in range(k + 1, size):
-            if A[k][k] == 0:
-                raise ValueError("Zero pivot")
-            factor = Round_off(A[i][k] / A[k][k],sig_figs)
+            factor = Round_off(A[i][k] / A[k][k], sig_figs)
             multipliers.append(factor)
-            A[i][k] = 0.0  #set element below the pivot to zero 
-            for j in range(k+1, size):  
-                A[i][j] -= Round_off(factor * A[k][j],sig_figs)          
-            B[i] -= Round_off(factor * B[k],sig_figs) 
+            A[i][k] = 0.0  # Set element below the pivot to zero
+            for j in range(k + 1, size):
+                A[i][j] -= Round_off(factor * A[k][j], sig_figs)
+                A[i][j] = Round_off(A[i][j],sig_figs)
+            B[i] -= Round_off(factor * B[k], sig_figs)
+            B[i] =Round_off(B[i],sig_figs)
     return A, B, multipliers
 
 
-def backward_elimination(A, B, size, sig_figs):
+def backward_elimination(size,A, B,  sig_figs):
     for k in range(size - 1, -1, -1):
         if A[k][k] == 0:
             raise ValueError("Zero pivot")
@@ -37,10 +40,9 @@ if __name__ == "__main__":
     B = [0.6, 1.5, 2.4]
     size = 3
     sig_figs = 8
-
-    
-    matA, matB = backward_elimination(A, B, size, sig_figs)
+    matA, matB, erddd = forward_elimination(size,A, B,  sig_figs)
 
     for row in matA:
         print(row)
     print(matB)
+    print(erddd)

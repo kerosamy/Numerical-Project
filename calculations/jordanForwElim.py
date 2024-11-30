@@ -14,16 +14,16 @@ def elimination(A, B, size, sig_figs):
             factor = A[i][k]
             A[i][k] = 0.0  #element below the pivot 
             for j in range(k+1, size):  
-                A[i][j] -= Round_off(factor * A[k][j],sig_figs)          
-            B[i] -= Round_off(factor * B[k],sig_figs) 
+                A[i][j] = Round_off(A[i][j] - factor * A[k][j],sig_figs)          
+            B[i] = Round_off(B[i] - factor * B[k],sig_figs) 
     return A, B
 
 if __name__ == "__main__":
     A = [
-    [1000, 2000, 3000],
-    [4000, 5000, 6000],
-    [7000, 8000, 9000]]
-    B = [6000, 15000, 24000]
+    [0.1, 0.2, 0.3],
+    [0.4, 0.5, 0.6],
+    [0.7, 0.8, 0.9]]
+    B = [0.6, 1.5, 2.4]
     size = 3
     sig_figs = 8
 

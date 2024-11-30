@@ -8,7 +8,7 @@ def back_substitution(size, A, B, sig_figs):
             raise ValueError("Division by Zero")
         sum_of_terms = B[k]
         for i in range(k + 1, size):
-            sum_of_terms -= Round_off(A[k][i] * solutions[i], sig_figs)
+            sum_of_terms = Round_off(sum_of_terms - A[k][i] * solutions[i], sig_figs)
         solutions[k] = Round_off(sum_of_terms / A[k][k], sig_figs)
     return solutions
 
@@ -17,7 +17,7 @@ def forward_substitution(size, L, B, sig_figs):
     for k in range(size):
         sum_of_terms = B[k]
         for i in range(k):
-            sum_of_terms -= Round_off(L[k][i] * solutions[i], sig_figs)
+            sum_of_terms = Round_off(sum_of_terms - L[k][i] * solutions[i], sig_figs)
         pivot = L[k][k]
         if pivot == 0:
             raise ValueError("Zero pivot")
