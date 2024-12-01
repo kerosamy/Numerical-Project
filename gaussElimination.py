@@ -7,7 +7,7 @@ import numpy as np
 
 
 def gauss_elimination(size, A, B, sig_figs):
-    start_time = time.time()
+    start_time = time.perf_counter()
     A = np.array(A) 
     B = np.array(B) 
     for i in range(size):
@@ -17,7 +17,7 @@ def gauss_elimination(size, A, B, sig_figs):
             B[i] = Round_off(B[i], sig_figs)
     A_transformed, B_transformed, multipliers = forward_elimination(size, A, B, sig_figs)
     solutions = back_substitution(size, A_transformed, B_transformed, sig_figs)        
-    end_time = time.time()
+    end_time = time.perf_counter()
     gauss_time = end_time - start_time
     return solutions, gauss_time
 

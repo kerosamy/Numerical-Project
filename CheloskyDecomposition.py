@@ -1,10 +1,10 @@
 import numpy as np
-from time import time
+import time
 from roundOff import Round_off
 from Substitution import forward_substitution, back_substitution
 
 def choleskyDecomposition(size, A, B, sig_figs):
-    start_time = time()
+    start_time = time.perf_counter()
     A = np.array(A) 
     B = np.array(B) 
     L = np.zeros_like(A)
@@ -22,7 +22,7 @@ def choleskyDecomposition(size, A, B, sig_figs):
     Y = forward_substitution(size, L, B, sig_figs)
     X = back_substitution(size, LT, Y, sig_figs)
     
-    end_time = time() 
+    end_time = time.perf_counter()
     execution_time = end_time - start_time
 
     return X, execution_time

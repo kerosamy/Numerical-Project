@@ -1,10 +1,10 @@
-from time import time
+import time
 import numpy as np
 from roundOff import Round_off
 
 
 def gaussSeidel(A, B, initial_guess,sig_figs, max_iterations=100, tolerance=1e-8):
-    start_time = time() 
+    start_time = time.perf_counter()
     n = len(A)
     x = np.array(initial_guess, dtype=float)
     max_iterations = int(max_iterations)
@@ -24,9 +24,9 @@ def gaussSeidel(A, B, initial_guess,sig_figs, max_iterations=100, tolerance=1e-8
         
         error = np.linalg.norm(x - x_old, ord=np.inf)
         if error < tolerance:
-            execution_time = time() - start_time
+            execution_time = time.perf_counter() - start_time
             return x, k + 1, execution_time
     
-    execution_time = time() - start_time  
+    execution_time = time.perf_counter() - start_time  
     return x, execution_time, max_iterations
 
