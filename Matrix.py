@@ -1,5 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QLineEdit
+from solutionType import checkSolutionType
+from CheloskyDecomposition import is_symmetric
+import numpy as np
+
 
 class Ui_Dialog(object):
   
@@ -14,7 +18,8 @@ class Ui_Dialog(object):
 
         self.leftLayout = QtWidgets.QVBoxLayout()
         
-     
+        self.sig_f = 0 
+        self.have_sig = False 
         self.topLabel = QtWidgets.QLabel(Dialog)
         self.topLabel.setObjectName("topLabel")
         self.topLabel.setText("")
@@ -70,7 +75,7 @@ class Ui_Dialog(object):
         self.leftLayout.addWidget(self.chooseMethod_button)
 
 
-
+ 
         self.clear_button = QtWidgets.QPushButton(Dialog)
         self.clear_button.setObjectName("clearbutton")
         self.clear_button.setText("Clear")
@@ -202,13 +207,18 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+    def sig_fig(value,self):
+        if(value=='none'):
+            self.have_sig = False 
+        else:
+            self.sig_f = value    
     def isValid(self):
         for row in range(self.gridLayout.rowCount()):
             for col in range(self.gridLayout.columnCount()):
                item = self.gridLayout.itemAtPosition(row, col)
-               if item is not None:  # Check if there's an item at this position
+               if item is not None:  
                    widget = item.widget()
-                   if isinstance(widget, QLineEdit):  # Check if the widget is a QLineEdit
+                   if isinstance(widget, QLineEdit): 
                       if(not self.is_number(widget.text())):
                           return True
         return False       
@@ -273,37 +283,57 @@ class Ui_Dialog(object):
         else:
             self.chooseMethod_button.setText("Choose your Solving Method")
     def save_the_matrix(self):
-        matrix = []  
-        for row in range(self.gridLayout.rowCount()):
-           rows = [] 
-           for col in range(self.gridLayout.columnCount()):
-             item = self.gridLayout.itemAtPosition(row, col)
-             if item is not None: 
-                widget = item.widget()
-                if isinstance(widget, QLineEdit):  
-                    text = widget.text().strip()  
-                    if self.is_number(text): 
-                        rows.append(float(text))  
-           matrix.append(rows)  
+     matrix = []  # To store the matrix excluding the last column
+     last_column = []  # To store the last column values
 
-        return matrix  
+     for row in range(self.gridLayout.rowCount()):
+         rows = []  # To store the current row excluding the last column
+
+         for col in range(self.gridLayout.columnCount()):
+             item = self.gridLayout.itemAtPosition(row, col)
+             if item is not None:
+                 widget = item.widget()
+                 if isinstance(widget, QLineEdit):  # Check if it's a QLineEdit widget
+                     text = widget.text().strip()  # Get and clean the text
+                     if self.is_number(text):  # Validate if the input is a number
+                         value = float(text)
+                         if col < self.gridLayout.columnCount() - 1:
+                             rows.append(value)  # Add to rows excluding the last column
+                         elif col == self.gridLayout.columnCount() - 1:
+                             last_column.append(value)  # Add to the last column array
+ 
+         matrix.append(rows)  # Add the row (without last column) to matrix
+ 
+     return matrix, last_column
 
 
     def solve (self):
-        
+       
         if(self.choosed.text()=="" or self.isValid()):
              QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please try again.")
             
         else:
-            matrix = self.save_the_matrix()
+            matrix,last_cloumn = self.save_the_matrix()
+            typeofsol = checkSolutionType(matrix,last_cloumn)
+            if(typeofsol =="No solution"):
+                QtWidgets.QMessageBox.warning(None, "Invalid Input", "No solution")
+                return
+            if(typeofsol =="Infinite solutions"):
+                QtWidgets.QMessageBox.warning(None, "Invalid Input", "Infinite solutions")
+                return
             method = self.choosed.text()
             num_rows =  self.temp.text()
             if(method=="Gauss-Seidel" or method=="Jacobi"):
-                self.parent.go_to_fourth_page(int(num_rows))
-  
-            method_continue = ""
-            if(method=="LU Decomposition"):
-                 method_continue = self.lu_choosed.text()
+                self.parent.go_to_fourth_page(value=int(num_rows),A=matrix,B=last_cloumn,method=method)
+            else:
+             method_continue = ""
+             if(method=="LU Decomposition"):
+                  method_continue = self.lu_choosed.text()
+                  method=method+method_continue 
+             if (((not np.all(np.linalg.eigvals(matrix) > 0)) or (not is_symmetric(matrix)))and (method=="LU DecompositionCholesky Form") ):
+                   QtWidgets.QMessageBox.warning(None, "Invalid Input", "not postive definite or no symmetric")
+                   return  
+             self.parent.go_to_fifth_page(method=method,A=matrix,B=last_cloumn,)    
 
 
 

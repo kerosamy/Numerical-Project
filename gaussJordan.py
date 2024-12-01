@@ -2,8 +2,11 @@ import time
 from jordanForwElim import elimination
 from Elimination import backward_elimination
 from roundOff import Round_off
+import numpy as np
 
 def gauss_jordan_elimination(size, A, B, sig_figs):
+    A = np.array(A) 
+    B = np.array(B) 
     start_time = time.time()
     for i in range(size):
         for j in range(size):
@@ -16,19 +19,3 @@ def gauss_jordan_elimination(size, A, B, sig_figs):
     jordan_time = end_time - start_time
     return solutions, jordan_time
 
-if __name__ == "__main__":
-    A = [
-    [1, 1, 1],
-    [1, 1.000001, 1],
-    [1, 1, 1.000002]
-    ]
-    B = [3, 3.000001, 3.000002]
-    size = 3
-    sig_figs = 8
-    solutions, jordan_time = gauss_jordan_elimination(size, A, B, sig_figs)
-
-    print("\nSolutions:")
-    for i, sol in enumerate(solutions):
-        print(f"x{i+1} = {sol}")
-
-    print(f"\nJordan Time: {jordan_time:.10f} seconds")

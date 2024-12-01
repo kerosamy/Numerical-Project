@@ -4,8 +4,10 @@ from Substitution import *
 from Elimination import *
 
 def doolittle_lu_solve(n, A, B,sig_figs):
-    start_time = time()
-    if(np.linalg.det(A)):
+        start_time = time()
+        A = np.array(A) 
+        B = np.array(B) 
+    
 
         L = np.eye(n)  # L with ones on the diagonal
         U = np.zeros((n, n))
@@ -32,21 +34,7 @@ def doolittle_lu_solve(n, A, B,sig_figs):
         end_time = time()
         execution_time = end_time - start_time
         return X, execution_time
-    else:
-        return "Ah ya bared"
+   
 
 # Example Usage
-A = np.array([
-    [5, -2, 3, 0, 1],
-    [-2, 4, 1, 5, -1],
-    [3, 1, 7, 1, 2],
-    [0, 5, 1, 8, -2],
-    [1, -1, 2, -2, 6]
-], dtype=float)
-
-B = np.array([1, 2, 3, 4, 5])
-
-print(np.linalg.det(A))
-print( doolittle_lu_solve(len(A[0]),A, B,5))
-print(doolittle_lu_solve(len(A[0]),A, B,5)[0][0])
 

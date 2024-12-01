@@ -11,20 +11,9 @@ def checkSolutionType(A, B):
     if rank_A < rank_augmented:
         return "No solution"  
     elif rank_A == rank_augmented and rank_A < size:
-        return "Infinite solutions"  
+        return "Infinite solutions"
     elif rank_A == size:
         return "Unique solution" 
     else:
         return "Invalid case"  
     
-if __name__ == "__main__":
-    A = np.array([
-    [1, 1, 1],
-    [1, 1.000001, 1],
-    [1, 1, 1.000002]
-    ])
-    B = np.array([3, 3.000001, 3.000002])
-    size = 3
-    sig_figs = 8
-    result = checkSolutionType(A, B)
-    print(result)

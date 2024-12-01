@@ -79,6 +79,7 @@ class Ui_jacobi(object):
         self.submit_button.setFixedHeight(50)  # Set equal height
         self.submit_button.setStyleSheet("background-color: black; color:  #03fc39;")  # Orange Submit button
         self.submit_button.setFont(font)
+        self.submit_button.clicked.connect(self.submit)
         self.main_layout.addWidget(self.submit_button)
 
         # Add a Back button below Submit
@@ -96,6 +97,35 @@ class Ui_jacobi(object):
         self.pushButton.clicked.connect(self.show_absolute_relative_error)
         self.pushButton_2.clicked.connect(self.show_number_of_iterations)
         self.back_button.clicked.connect(self.go_back)
+    def collect(self) : 
+     values = [] 
+     error_found = False 
+     for index, line_edit in enumerate(self.text_boxes):
+         try:
+             value = float(line_edit.text())  
+             values.append(value) 
+         except ValueError:
+             error_found = True  
+             QtWidgets.QMessageBox.warning(None, "Input Error", f"Invalid input in X{index}. Please enter a numeric value.")
+             break 
+    
+     if not error_found:
+         return values   
+
+    def is_number(self ,string):
+     try:
+        float(string)  
+        return True
+     except ValueError:
+        return False
+    def submit (self):
+        values = self.collect()
+        it = self.lineEdit_5.text()
+        error = self.lineEdit_4.text()
+        if(not(self.is_number(it) or self.is_number(error))):
+            QtWidgets.QMessageBox.warning(None, "Input Error", f"please select the stoping condition ")
+            return
+        self.parent.go_to_fifth_page_from_fourth(values,it,error)
 
     def create(self, value):
       

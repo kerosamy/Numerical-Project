@@ -100,8 +100,11 @@ class Ui_Size(object):
         self.parent.go_to_first_page()
     def submit_value (self):
         value = self.input_size.text()
-        if value.isdigit() and int(value) > 0:  # Validate the input
-          self.parent.go_to_third_page(value)
+        value_sig = self.input_significant.text()
+        if(value_sig==""):
+            value_sig="none"
+        if (value.isdigit() and int(value) > 0) and ((value_sig.isdigit() and int(value_sig)>0) or value_sig=="none"):  
+          self.parent.go_to_third_page(value,value_sig)
         else:
           QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please enter a positive integer.")
 
