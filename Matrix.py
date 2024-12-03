@@ -198,10 +198,6 @@ class Ui_Dialog(object):
         sidebar_layout.addWidget(self.lu_combobox)
         self.lu_combobox.currentIndexChanged.connect(self.on_combobox_changed)
 
- 
-       
-       
-        # Add the sidebar to the main layout but initially hide it
         self.mainLayout.addWidget(self.sidebar)
         self.sidebar.setVisible(False)  # Initially hidden
 
@@ -285,11 +281,10 @@ class Ui_Dialog(object):
     def save_the_matrix(self):
      matrix = []  # To store the matrix excluding the last column
      last_column = []  # To store the last column values
-
-     for row in range(self.gridLayout.rowCount()):
+     for row in range(int(self.temp.text())):
          rows = []  # To store the current row excluding the last column
 
-         for col in range(self.gridLayout.columnCount()):
+         for col in range(int(self.temp.text())+1):
              item = self.gridLayout.itemAtPosition(row, col)
              if item is not None:
                  widget = item.widget()
@@ -297,9 +292,9 @@ class Ui_Dialog(object):
                      text = widget.text().strip()  # Get and clean the text
                      if self.is_number(text):  # Validate if the input is a number
                          value = float(text)
-                         if col < self.gridLayout.columnCount() - 1:
+                         if col < int(self.temp.text()):
                              rows.append(value)  # Add to rows excluding the last column
-                         elif col == self.gridLayout.columnCount() - 1:
+                         elif col == int(self.temp.text()):
                              last_column.append(value)  # Add to the last column array
  
          matrix.append(rows)  # Add the row (without last column) to matrix
