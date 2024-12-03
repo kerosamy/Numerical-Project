@@ -152,13 +152,13 @@ class Ui_jacobi(object):
 
     def show_absolute_relative_error(self):
         """Toggle the visibility of the input for Absolute Relative Error."""
-        self.lineEdit_5.clear()
+       
         self.lineEdit_4.setVisible(True)
         self.lineEdit_5.setVisible(False)
 
     def show_number_of_iterations(self):
         """Toggle the visibility of the input for Number of Iterations."""
-        self.lineEdit_4.clear()
+       
         self.lineEdit_5.setVisible(True)
         self.lineEdit_4.setVisible(False)
 

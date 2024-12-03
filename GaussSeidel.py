@@ -1,14 +1,16 @@
 import time
 import numpy as np
 from roundOff import Round_off
+from make_diagonally_dominant import make_diagonally_dominant
 
 
 def gaussSeidel(A, B, initial_guess,sig_figs, max_iterations=100, tolerance=1e-8):
     start_time = time.perf_counter()
+    is_diagonally_dominant, A, B = make_diagonally_dominant(A, B)
     n = len(A)
     x = np.array(initial_guess, dtype=float)
     max_iterations = int(max_iterations)
-    tolerance = int(tolerance)
+    tolerance = float(tolerance)
     A = np.array(A) 
     B = np.array(B) 
     
@@ -25,8 +27,7 @@ def gaussSeidel(A, B, initial_guess,sig_figs, max_iterations=100, tolerance=1e-8
         error = np.linalg.norm(x - x_old, ord=np.inf)
         if error < tolerance:
             execution_time = time.perf_counter() - start_time
-            return x, k + 1, execution_time
+            return x, execution_time, k+1,is_diagonally_dominant
     
     execution_time = time.perf_counter() - start_time  
-    return x, execution_time, max_iterations
-
+    return x, execution_time, max_iterations, is_diagonally_dominant

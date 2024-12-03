@@ -26,6 +26,33 @@ class Ui_ansg(object):
         self.topLabel.setStyleSheet("color: white;")
         self.leftLayout.addWidget(self.topLabel)
 
+        self.iterations = QtWidgets.QLabel(Dialog)
+        self.iterations.setObjectName("iterations")
+        self.iterations.setText("")
+        self.iterations.setVisible(False)
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        self.iterations.setFont(font)
+        self.iterations.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.iterations.setStyleSheet("color: white;")
+        self.leftLayout.addWidget(self.iterations)
+
+
+
+
+        self.check = QtWidgets.QLabel(Dialog)
+        self.check.setObjectName("check")
+        self.check.setText("")
+        self.check.setVisible(False)
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        self.check.setFont(font)
+        self.check.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.check.setStyleSheet("color: white;")
+        self.leftLayout.addWidget(self.check)
+
         self.scrollArea = QtWidgets.QScrollArea(Dialog)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
@@ -67,7 +94,20 @@ class Ui_ansg(object):
         self.parent.go_to_second_page()
     def go_back(self):
         self.parent.go_to_third_page(self.sizeMatrix,self.sig_f)
-    def updateGrid_ans(self, num_rows,ans,time,sig):
+    def updateGrid_ans(self, num_rows,ans,time,sig,check=None,it=None):
+        if(check!=None):
+         if(check):
+            self.check.setVisible(True)
+            self.check.setText("is a diagonally dominant")
+            self.check.setStyleSheet("color:green")
+         else:
+            
+            self.check.setText("is not diagonally dominant")
+            self.check.setStyleSheet("color:red")
+        if(it!=None):
+            self.iterations.setVisible(True)
+            self.iterations.setText(f"Number of iterations = {it}")
+
         self.sizeMatrix=num_rows
         self.sig_f=sig
         self.topLabel.setText(f"TIME taken = {time:.15f}")

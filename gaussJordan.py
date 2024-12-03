@@ -8,7 +8,7 @@ def gauss_jordan_elimination(size, A, B, sig_figs):
     start_time = time.perf_counter()
     A = np.array(A) 
     B = np.array(B) 
-   
+ 
     for i in range(size):
         for j in range(size):
             A[i][j] = Round_off(A[i][j], sig_figs)

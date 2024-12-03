@@ -74,8 +74,8 @@ class MainWindow(QtWidgets.QWidget):
         self.fourth_ui.create(int(value))
         self.stackedWidget.setCurrentWidget(self.fourth_page)    
     def go_to_fifth_page_from_fourth(self,intial_guess,it=None,r_error=None): 
-            ans , time,max_it = choose_the_method(size=int(self.sizeMatrix),A=self.matrix,B=self.last_col,method=self.method,sig=self.sig,intial_guess=intial_guess,it=it,r_error=r_error)  
-            self.fifth_ui.updateGrid_ans(num_rows=int(self.sizeMatrix),ans=ans,time=time,sig =self.sig)
+            ans , time,max_it,check = choose_the_method(size=int(self.sizeMatrix),A=self.matrix,B=self.last_col,method=self.method,sig=self.sig,intial_guess=intial_guess,it=it,r_error=r_error)  
+            self.fifth_ui.updateGrid_ans(num_rows=int(self.sizeMatrix),ans=ans,time=time,sig =self.sig,it=max_it,check=check)
             self.stackedWidget.setCurrentWidget(self.fifth_page)
     def go_to_fifth_page(self,method,A,B):
             ans , time = choose_the_method(size=int(self.sizeMatrix),A=A,B=B,method=method,sig=self.sig)  
