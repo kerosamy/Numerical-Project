@@ -19,8 +19,24 @@ def make_diagonally_dominant(A, B):
             B[[i, max_row]] = B[[max_row, i]]  # Swap corresponding rows in B
     
     # Verify diagonal dominance
+   # Verify diagonal dominance
+    strictly_dominant_row_found = False
+
     for i in range(size):
-        if abs(A[i][i]) < sum(abs(A[i][j]) for j in range(size) if j != i):
+        row_sum = sum(abs(A[i][j]) for j in range(size) if j != i)
+        
+        if abs(A[i][i]) > row_sum:
+            strictly_dominant_row_found = True  # Found at least one strictly dominant row
+        
+        if abs(A[i][i]) < row_sum:
+            # If any row fails to be weakly dominant, return False immediately
             return False, A, B
+
+    # If no strictly dominant row was found, return False
+    if not strictly_dominant_row_found:
+        return False, A, B
+
+    # Otherwise, the matrix satisfies the condition
+    return True, A, B
     
     return True, A, B

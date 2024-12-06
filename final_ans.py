@@ -96,12 +96,13 @@ class Ui_ansg(object):
         self.parent.go_to_third_page(self.sizeMatrix,self.sig_f)
     def updateGrid_ans(self, num_rows,ans,time,sig,check=None,it=None):
         if(check!=None):
+        
          if(check):
             self.check.setVisible(True)
             self.check.setText("is a diagonally dominant")
             self.check.setStyleSheet("color:green")
          else:
-            
+            self.check.setVisible(True)
             self.check.setText("is not diagonally dominant")
             self.check.setStyleSheet("color:red")
         if(it!=None):

@@ -5,7 +5,7 @@ from Matrix import Ui_Dialog
 from requirements import Ui_jacobi
 from final_ans import Ui_ansg
 from control import choose_the_method
-import pygame
+
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
