@@ -60,7 +60,11 @@ class Ui_ansg(object):
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         
-        # Using QVBoxLayout to arrange the widgets vertically (in a column)
+        # kero
+        # John
+        # Caro
+        # Jana
+        # Miki
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
