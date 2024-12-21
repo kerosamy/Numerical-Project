@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from GUI_phase_1.menu import Ui_Form
+from menu import Ui_Form
 from GUI_phase_1.size_input import Ui_Size 
 from GUI_phase_1.Matrix import Ui_Dialog
 from GUI_phase_1.requirements import Ui_jacobi
