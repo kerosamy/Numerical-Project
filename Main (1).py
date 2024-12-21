@@ -1,11 +1,11 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from menu import Ui_Form
-from size_input import Ui_Size 
-from Matrix import Ui_Dialog
-from requirements import Ui_jacobi
-from final_ans import Ui_ansg
+from GUI_phase_1.menu import Ui_Form
+from GUI_phase_1.size_input import Ui_Size 
+from GUI_phase_1.Matrix import Ui_Dialog
+from GUI_phase_1.requirements import Ui_jacobi
+from GUI_phase_1.final_ans import Ui_ansg
 from control import choose_the_method
-import pygame
+
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):

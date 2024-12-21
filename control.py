@@ -1,11 +1,12 @@
 import numpy as np
-from CheloskyDecomposition import choleskyDecomposition
-from Crout import croutDecomposition
-from Doolittle_Working import doolittle_lu_solve
-from gaussElimination import gauss_elimination 
-from gaussJordan import gauss_jordan_elimination
-from GaussSeidel import gaussSeidel
-from Jacobi import jacobiMethod
+from phase_1.CheloskyDecomposition import choleskyDecomposition
+from phase_1.Crout import croutDecomposition
+from phase_1.Doolittle_Working import doolittle_lu_solve
+from phase_1.gaussElimination import gauss_elimination
+from phase_1.gaussJordan import gauss_jordan_elimination
+from phase_1.GaussSeidel import gaussSeidel
+from phase_1.Jacobi import jacobiMethod
+
 
 
 def choose_the_method(method,size,A,B,sig,intial_guess=None,it=100,r_error=1e-8):
