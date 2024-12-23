@@ -125,7 +125,7 @@ class Ui_jacobi(object):
         if(not(self.is_number(it) or self.is_number(error))):
             QtWidgets.QMessageBox.warning(None, "Input Error", f"please select the stoping condition ")
             return
-        self.parent.go_to_fifth_page_from_fourth(values,it,error)
+        self.parent._phase_1_go_to_fifth_page_from_fourth(values,it,error)
 
     def create(self, value):
       
@@ -163,4 +163,4 @@ class Ui_jacobi(object):
         self.lineEdit_4.setVisible(False)
 
     def go_back(self):
-        self.parent.go_to_third_page_without_value()
+        self.parent._phase_1_go_to_third_page_without_value()

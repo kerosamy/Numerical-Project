@@ -1,45 +1,90 @@
+import sys
+from PyQt6 import QtCore, QtGui, QtWidgets
 import numpy as np
 import matplotlib.pyplot as plt
-from sympy import symbols, sympify, lambdify
 
-def plot_string_function(func_str, variable='x', x_range=(-10, 10), points=500):
-    """
-    Plots a mathematical function given as a string.
-    
-    Parameters:
-        func_str (str): The mathematical function as a string (e.g., "x^2 + 2*x + 1").
-        variable (str): The variable in the function (default is 'x').
-        x_range (tuple): The range of x values (default is (-10, 10)).
-        points (int): Number of points to plot (default is 500).
-    """
-    try:
-        # Define the variable symbolically
-        x = symbols(variable)
+class PlotDialog(QtWidgets.QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Plot Function")
         
-        # Parse the function string into a symbolic expression
-        func_sym = sympify(func_str.replace("^", "**"))
-        
-        # Convert the symbolic function into a numerical function
-        func_num = lambdify(x, func_sym, modules=["numpy"])
-        
-        # Generate x values and corresponding y values
-        x_vals = np.linspace(x_range[0], x_range[1], points)
-        y_vals = func_num(x_vals)
-        
-        # Plot the function
-        plt.figure(figsize=(8, 6))
-        plt.plot(x_vals, y_vals, label=f"${func_sym}$")
-        plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-        plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-        plt.title("Plot of the Function")
-        plt.xlabel(variable)
-        plt.ylabel("f(x)")
-        plt.grid(True)
-        plt.legend()
-        plt.show()
-        
-    except Exception as e:
-        print(f"Error: {e}")
+        # Layout for the dialog
+        self.layout = QtWidgets.QVBoxLayout(self)
 
-# Example usage
-plot_string_function("x^2 + 2*x + 1", x_range=(-5, 5))
+        # Input for x_min and x_max
+        self.x_min_label = QtWidgets.QLabel("Enter x_min:")
+        self.x_min_input = QtWidgets.QLineEdit(self)
+        self.layout.addWidget(self.x_min_label)
+        self.layout.addWidget(self.x_min_input)
+
+        self.x_max_label = QtWidgets.QLabel("Enter x_max:")
+        self.x_max_input = QtWidgets.QLineEdit(self)
+        self.layout.addWidget(self.x_max_label)
+        self.layout.addWidget(self.x_max_input)
+
+        # Input for number of points
+        self.points_label = QtWidgets.QLabel("Enter number of points:")
+        self.points_input = QtWidgets.QLineEdit(self)
+        self.layout.addWidget(self.points_label)
+        self.layout.addWidget(self.points_input)
+
+        # Input for the function
+        self.function_label = QtWidgets.QLabel("Enter the function (e.g., x**2):")
+        self.function_input = QtWidgets.QLineEdit(self)
+        self.layout.addWidget(self.function_label)
+        self.layout.addWidget(self.function_input)
+
+        # Submit button
+        self.submit_button = QtWidgets.QPushButton("Plot", self)
+        self.submit_button.clicked.connect(self.plot_function)
+        self.layout.addWidget(self.submit_button)
+
+    def plot_function(self):
+        try:
+            x_min = float(self.x_min_input.text())
+            x_max = float(self.x_max_input.text())
+            num_points = int(self.points_input.text())
+            func_str = self.function_input.text()
+
+            x = np.linspace(x_min, x_max, num_points)
+
+            # Evaluate the function using lambda
+            func = eval(f"lambda x: {func_str}")
+            y = func(x)
+
+            # Plot the function
+            plt.plot(x, y)
+            plt.xlabel("x")
+            plt.ylabel("y")
+            plt.title(f"Plot of y = {func_str}")
+            plt.grid(True)
+            plt.show()
+
+            # Close the dialog
+            self.accept()
+        except Exception as e:
+            QtWidgets.QMessageBox.warning(self, "Invalid Input", f"Error: {str(e)}")
+
+class MainWindow(QtWidgets.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.layout = QtWidgets.QVBoxLayout(self)
+
+        # Plot button
+        self.plot_button = QtWidgets.QPushButton("Plot Function", self)
+        self.plot_button.clicked.connect(self.open_plot_dialog)
+        self.layout.addWidget(self.plot_button)
+
+    def open_plot_dialog(self):
+        # Open the plot dialog
+        dialog = PlotDialog(self)
+        dialog.exec()
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+
+    window = MainWindow()
+    window.show()
+
+    sys.exit(app.exec())
