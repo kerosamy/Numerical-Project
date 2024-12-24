@@ -7,7 +7,9 @@ from GUI_phase_1.final_ans import Ui_ansg
 from GUI_phase_2.inputEquation import Ui_InputEq
 from GUI_phase_2.chooseMethode import Ui_Choose_Method
 from GUI_phase_2.Points import Ui_Points
+from GUI_phase_2.final_ans import Ui_FinalAns
 from control import choose_the_method
+from control import choose_the_method_phase_2
 
 
 class MainWindow(QtWidgets.QWidget):
@@ -62,6 +64,10 @@ class MainWindow(QtWidgets.QWidget):
         self._phase_1_fifth_page = QtWidgets.QWidget()
         self._phase_1_fifth_ui = Ui_ansg()
         self._phase_1_fifth_ui.setupUi(self._phase_1_fifth_page,self)
+
+        self._phase_2_fifth_page = QtWidgets.QWidget()
+        self._phase_2_fifth_ui = Ui_FinalAns()
+        self._phase_2_fifth_ui.setupUi(self._phase_2_fifth_page,self)
         
 
         self.stackedWidget.addWidget(self.Menu_page)
@@ -80,9 +86,10 @@ class MainWindow(QtWidgets.QWidget):
         self.stackedWidget.addWidget(self._phase_2_fourth_page)
 
 
-        #fifth page
         self.stackedWidget.addWidget(self._phase_1_fifth_page)
+        self.stackedWidget.addWidget(self._phase_2_fifth_page)
         
+
         self.stackedWidget.setCurrentWidget(self.Menu_page)
 
     def go_to_Menu(self):
@@ -127,13 +134,9 @@ class MainWindow(QtWidgets.QWidget):
 
     def _phase_2_go_to_fourth_page(self, method):
         self._phase_2_method = method
-        self._phase_2_fourth_ui.Method_type(method)
+        self._phase_2_fourth_ui.Method_type(method,self._phase_2_equation)
         self.stackedWidget.setCurrentWidget(self._phase_2_fourth_page)   
     
-
-
-
-
 
 
     def _phase_1_go_to_fifth_page_from_fourth(self, initial_guess, it=None, r_error=None): 
@@ -145,6 +148,15 @@ class MainWindow(QtWidgets.QWidget):
         ans, time = choose_the_method(size=int(self._phase_1_sizeMatrix), A=A, B=B, method=method, sig=self._phase_1_sig)  
         self._phase_1_fifth_ui.updateGrid_ans(num_rows=int(self._phase_1_sizeMatrix), ans=ans, time=time, sig=self._phase_1_sig)
         self.stackedWidget.setCurrentWidget(self._phase_1_fifth_page)
+
+    def _phase_2_go_to_fifth_page(self, method, x0, x1, it , r_error):
+        print(choose_the_method_phase_2(equation=self._phase_2_equation,method=method,X0=x0,X1=x1,sig=self._phase_2_sig,it=it,r_error=r_error))
+        ans,itr,error,fig,time,string,steps = choose_the_method_phase_2(equation=self._phase_2_equation,method=method,X0=x0,X1=x1,sig=self._phase_2_sig,it=it,r_error=r_error)
+        self._phase_2_fifth_ui.set_final_ans(method=method,root=ans,it=itr,error=error,sig=fig,time=time,string=string,steps=steps)
+        self.stackedWidget.setCurrentWidget(self._phase_2_fifth_page)
+
+
+
 
 if __name__ == "__main__":
     import sys

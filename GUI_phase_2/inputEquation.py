@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import re
+import numpy as np
 
 class Ui_InputEq(object):
     def setupUi(self, Dialog,parent):
@@ -104,17 +105,18 @@ class Ui_InputEq(object):
         self.size_button.setText( "Submit")
         self.Back_size_button.setText("Back")
 
-    def is_valid_x_equation(self,equation: str) -> bool:
-     equation = equation.replace(" ", "")
-     pattern = r"^[0-9\.\+\-\*/\^\(\)x]+$"
-     return bool(re.match(pattern, equation))
+    def is_valid_x_equation(self, equation: str) -> bool:
+        equation = equation.replace(" ", "")  
+        equation = equation.replace('e', str(np.e))
+        pattern = r"^[0-9\.\+\-\*/\(\)x]*((e\^|e\*\*)[x0-9\.\+\-\*/\(\)]+|exp\([0-9x\+\-\*/\^\(\)]*\)|[0-9\.\+\-\*/\(\)x]+)$"
+        return bool(re.match(pattern, equation))
     
     def submit_value (self):
         value = self.input_size.text()
-        print(value)
         value_sig = self.input_significant.text()
         if(value_sig==""):
             value_sig="none"
+           
         if(self.is_valid_x_equation(value)):
            self.parent._phase_2_go_to_third_page(value,value_sig)
         else:

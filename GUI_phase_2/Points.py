@@ -68,7 +68,7 @@ class Ui_Points(object):
         font.setBold(True)
         self.input_error.setFont(font)
         self.input_error.setStyleSheet("background:black; color:white;")
-        self.input_error.setPlaceholderText("Absolute Relative Error = 0.0005 default")
+        self.input_error.setPlaceholderText("Absolute Relative Error = 1e-6 default")
         self.input_error.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.input_error)
 
@@ -131,9 +131,53 @@ class Ui_Points(object):
 
 
 
- 
-    def Method_type(self,method):
-        self.Method = method
+    def submit_value(self):
+     
+     if(self.method=="Secant" or self.method=="Bisecting" or self.method=="Regula_Falsi"):
+      try:
+         x0 = float(self.input_X0.text())
+         x1 = float(self.input_X1.text())
+         if(self.input_error.text()==""):
+            error=0.0005
+         else:
+            error = float(self.input_error.text())
+         if(self.input_Iteration.text()==""):
+            it = 100
+         else:
+            it = int(self.input_Iteration.text())
+      except ValueError as e:
+          QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please ensure:\n- x0 ,x1 (float)")
+          return
+     else:
+        try:
+         x0 = float(self.input_X0.text())
+         if(self.input_error.text()==""):
+            error=1e-6
+         else:
+            error = float(self.input_error.text())
+         if(self.input_Iteration.text()==""):
+            it = 100
+         else:
+            it = int(self.input_Iteration.text())
+        except ValueError as e:
+          QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please ensure:\n- x0 (float)")
+          return
+     if(self.method=="Regula_Falsi" or self.method=="Bisecting"):
+        result1 = eval(self.equation, {"x": x0, "__builtins__": None})
+        result2 = eval(self.equation, {"x": x1, "__builtins__": None})
+        if(result2*result1>0):
+            QtWidgets.QMessageBox.warning(None, "Invalid Input", "No roots or even number of roots")
+            return
+        elif(result1>0):
+           temp = x1 
+           x1 = x0 
+           x0 = temp
+     self.parent._phase_2_go_to_fifth_page(method=self.method, x0=x0, x1=x1, it=it , r_error=error)
+
+     self.parent
+    def Method_type(self,method,equation):
+        self.equation = equation
+        self.method = method
         self.input_X1.setVisible(False)
         self.enter_quote_X1.setVisible(False)
         if(method=="Secant" or method=="Bisecting" or method=="Regula_Falsi"):
@@ -144,19 +188,8 @@ class Ui_Points(object):
         self.parent._phase_2_go_to_third_page_without_value()
 
     def ploting(self):
-        if(self.Method=="Fixed_Point"):
+        if(self.method=="Fixed_Point"):
            self.parent.ploting(True)
         else:
            self.parent.ploting(False)
-    def submit_value(self):
-        print("Submit button clicked!")
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Points()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec())
