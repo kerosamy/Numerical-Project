@@ -12,8 +12,8 @@ def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
     error = float('inf')
     xi = x0
     prev_values = set()
-    steps = []  # Array to store steps
-
+    steps = []  
+   
     while error > tol and iter_count < max_iter:
         try:
             xi_new = g(xi)

@@ -132,7 +132,7 @@ class Ui_Points(object):
 
 
     def submit_value(self):
-     
+
      if(self.method=="Secant" or self.method=="Bisecting" or self.method=="Regula_Falsi"):
       try:
          x0 = float(self.input_X0.text())
@@ -151,6 +151,7 @@ class Ui_Points(object):
      else:
         try:
          x0 = float(self.input_X0.text())
+         x1 = 0 
          if(self.input_error.text()==""):
             error=1e-6
          else:

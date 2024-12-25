@@ -110,7 +110,8 @@ class Ui_InputEq(object):
         equation = equation.replace('e', str(np.e))
         pattern = r"^[0-9\.\+\-\*/\(\)x]*((e\^|e\*\*)[x0-9\.\+\-\*/\(\)]+|exp\([0-9x\+\-\*/\^\(\)]*\)|[0-9\.\+\-\*/\(\)x]+)$"
         return bool(re.match(pattern, equation))
-    
+    def d():
+        print("x**5 - 11*x**4 + 46*x**3 - 90*x**2 + 81*x-27")
     def submit_value (self):
         value = self.input_size.text()
         value_sig = self.input_significant.text()
@@ -118,6 +119,8 @@ class Ui_InputEq(object):
             value_sig="none"
            
         if(self.is_valid_x_equation(value)):
+           value = value.replace('e',str(np.e))
+           value = value.replace(" ","")
            self.parent._phase_2_go_to_third_page(value,value_sig)
         else:
           QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please enter a Valid equation.")

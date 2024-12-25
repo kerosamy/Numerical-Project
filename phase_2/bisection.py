@@ -18,7 +18,6 @@ def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
         xr_new = (xl + xu) / 2
         fxr_new = f(xr_new)
         error = abs((xr_new - (xr if xr else 1e9)) / (xr_new + 1e-12))
-
         # Store the current step
         steps.append({
             "iteration": itr + 1,
@@ -43,7 +42,7 @@ def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
         xr = xr_new
 
     xr_rounded = Round_off(xr, sf)
-    n_figures = calculate_significant_figures(error)
+    n_figures = calculate_significant_figures(error,sf)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
 

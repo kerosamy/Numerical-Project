@@ -35,7 +35,7 @@ def secant_method(func, x0, x1, tol=1e-6, max_iter=100, sig='none'):
         # Check for convergence
         if relError < tol:
             totTime = time.time() - start_time
-            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError)
+            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError,sig)
             x_rounded = Round_off(x_new, sig) if sig != 'none' else x_new
             return x_rounded, i + 1, relError, correctSigFig, totTime, "Converged", steps
 

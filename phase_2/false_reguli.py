@@ -48,7 +48,7 @@ def regula_falsi_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
             break
 
     xr_rounded = Round_off(xr, sf)  # Assuming Round_off is defined elsewhere properly
-    n_figures = calculate_significant_figures(error)
+    n_figures = calculate_significant_figures(error,sf)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
 

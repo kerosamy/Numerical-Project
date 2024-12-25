@@ -5,6 +5,9 @@ from GUI_phase_2.steps import StepWindow
 class Ui_FinalAns(object):
     def setupUi(self, Dialog ,parant):
         self.parent =parant
+        self.color = "color:#00b859"
+        self.star_color_red =  '<font color="red">*</font>'
+        self.star_color_blue =  '<font color="blue">*</font>'
         Dialog.resize(600, 250)
         Dialog.setStyleSheet("background-color:#2e2e2d;")
 
@@ -18,8 +21,8 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.SelectedMethod.setFont(font)
-        self.SelectedMethod.setStyleSheet("color:white")
-        self.SelectedMethod.setText("Choosed Method")
+        self.SelectedMethod.setStyleSheet("color:yellow")
+        self.SelectedMethod.setText("Chosen Method")
         self.SelectedMethod.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.SelectedMethod)
 
@@ -28,8 +31,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.Method.setFont(font)
-        self.Method.setStyleSheet("color:#03fc39")
-        self.Method.setText("")
+        self.Method.setStyleSheet(self.color)
         self.Method.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.Method)
 
@@ -39,8 +41,8 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.RootEqual.setFont(font)
-        self.RootEqual.setStyleSheet("color:white")
-        self.RootEqual.setText("Final Answer")
+        self.RootEqual.setStyleSheet(self.color)
+        self.RootEqual.setText(self.star_color_red+"Final Answer:"+self.star_color_red)
         self.RootEqual.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.RootEqual)
 
@@ -50,7 +52,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.Root.setFont(font)
-        self.Root.setStyleSheet("color:white")
+        self.Root.setStyleSheet(self.color)
         self.Root.setText("")
         self.Root.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.Root)
@@ -60,8 +62,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.NumberOfIteration.setFont(font)
-        self.NumberOfIteration.setStyleSheet("color:white")
-        self.NumberOfIteration.setText("Number of Iterations : ")
+        self.NumberOfIteration.setStyleSheet(self.color)
         self.NumberOfIteration.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.NumberOfIteration)
 
@@ -70,8 +71,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.RError.setFont(font)
-        self.RError.setStyleSheet("color:white")
-        self.RError.setText("R_Error :")
+        self.RError.setStyleSheet(self.color)
         self.RError.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.RError)
 
@@ -81,8 +81,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.sig_f.setFont(font)
-        self.sig_f.setStyleSheet("color:white")
-        self.sig_f.setText("Number of correct significant figures : ")
+        self.sig_f.setStyleSheet(self.color)
         self.sig_f.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.sig_f)
 
@@ -92,8 +91,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.time.setFont(font)
-        self.time.setStyleSheet("color:white")
-        self.time.setText("Time taken : ")
+        self.time.setStyleSheet(self.color)
         self.time.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.time)
 
@@ -103,7 +101,7 @@ class Ui_FinalAns(object):
         font.setPointSize(15)
         font.setBold(True)
         self.statuse.setFont(font)
-        self.statuse.setStyleSheet("color:white")
+        self.statuse.setStyleSheet("color:#8B4513")
         self.statuse.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.verticalLayout.addWidget(self.statuse)
 
@@ -159,16 +157,40 @@ class Ui_FinalAns(object):
 
     def set_final_ans(self,method,root,it,error,sig,time,string,steps):
         self.steps = steps
-        self.method=method
-        self.Method.setText(method)
-        self.Root.setText(str(root))
-        self.NumberOfIteration.setText(self.NumberOfIteration.text()+ str(it))
-        self.RError.setText(self.RError.text()+str(error))
-        self.sig_f.setText(self.sig_f.text()+str(sig))
-        self.time.setText(self.time.text()+ str(time))
-        self.statuse.setText(string)
-
-
+        if(root!=None):
+            self.RootEqual.setVisible(True)
+            self.Root.setVisible(True)
+            self.NumberOfIteration.setVisible(True)
+            self.RError.setVisible(True)
+            self.sig_f.setVisible(True)
+            self.time.setVisible(True)
+            self.method=method
+            self.Method.setText("")   
+            self.Method.setText(self.star_color_blue+method+self.star_color_blue)
+            self.Root.setText("")  
+            self.Root.setText(self.star_color_blue+str(root)+self.star_color_blue)
+            self.NumberOfIteration.setText("Number of Iterations : ") 
+            self.NumberOfIteration.setText(self.star_color_red+self.NumberOfIteration.text()+ str(it)+self.star_color_red)
+            self.RError.setText("R_Error :")
+            self.RError.setText(self.star_color_blue+self.RError.text()+str(error)+self.star_color_blue)
+            self.sig_f.setText("Number of correct significant figures : ") 
+            self.sig_f.setText(self.star_color_red+self.sig_f.text()+str(sig)+self.star_color_red)
+            self.time.setText("Time taken : ")
+            self.time.setText(self.star_color_blue+self.time.text()+ str(time)+self.star_color_blue)
+            self.statuse.setText("")  
+            self.statuse.setText(string)
+        else:
+            self.method=method
+            self.Method.setText("")   
+            self.Method.setText(self.star_color_blue+method+self.star_color_blue)
+            self.RootEqual.setVisible(False)
+            self.Root.setVisible(False)
+            self.NumberOfIteration.setVisible(False)
+            self.RError.setVisible(False)
+            self.sig_f.setVisible(False)
+            self.time.setVisible(False)
+            self.statuse.setText("")  
+            self.statuse.setText(string)
 
     def show_steps(self):
         self.step_window = StepWindow(self.steps)

@@ -7,7 +7,8 @@ def newton_raphson(func, x0, tol, max_iter, sig='none'):
     x = sp.symbols('x')
     f = sp.sympify(func)
     f_prime = sp.diff(f, x)
-    steps = []  # Array to store steps
+    steps = []  
+    print(func)
 
     for i in range(max_iter):
         fx = f.subs(x, x0).evalf()  
@@ -19,9 +20,9 @@ def newton_raphson(func, x0, tol, max_iter, sig='none'):
             return None, None, None, None, totTime, "Division by zero", steps
 
         x_next = x0 - fx / fpx
-        relError = abs((x_next - x0) / (x_next + 1e-15))  # Avoid division by zero and very small denominators
+        relError = abs((x_next - x0) / (x_next + 1e-15))*100
 
-        # Store the current step
+       
         steps.append({
             "iteration": i + 1,
             "x0": float(x0),
@@ -33,7 +34,7 @@ def newton_raphson(func, x0, tol, max_iter, sig='none'):
 
         if relError < tol:
             totTime = time.time() - start_time
-            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError)
+            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError,sig)
             x_rounded = Round_off(float(x_next), sig) if sig != "none" else x_next
             return x_rounded, i + 1, relError, correctSigFig, totTime, "Converged", steps
 

@@ -41,11 +41,11 @@ def choose_the_method_phase_2(method,equation,X0,X1,sig,it=100,r_error=1e-5):
    elif method == 'Regula_Falsi': 
         return regula_falsi_method(func_str=equation,xl=X0,xu=X1,tol=r_error,max_iter=it,sf=sig)
    elif method == 'Fixed_Point': 
-        return fixed_point_iteration(func_str=equation,X0=X0,tol=r_error,max_iter=it,sf=sig)
+        return fixed_point_iteration(func_str=equation,x0=X0,tol=r_error,max_iter=it,sf=sig)
    elif method == 'Newton_Raphson': 
-       return newton_raphson(func_str=equation,X0=X0,tol=r_error,max_iter=it,sf=sig)      
+       return newton_raphson(func=equation,x0=X0,tol=r_error,max_iter=it,sig=sig)     
    elif method == 'Newton_Raphson_Modified': 
-       return modified_newton_raphson(func_str=equation,X0=X0,tol=r_error,max_iter=it,sf=sig)    
+       return modified_newton_raphson(func=equation,x0=X0,tol=r_error,max_iter=it,sig=sig)    
    elif method == 'Secant':   
        return secant_method(func=equation, x0=X0, x1=X1, tol=r_error, max_iter=it, sig=sig)
    elif method == 'Modified_Secant':

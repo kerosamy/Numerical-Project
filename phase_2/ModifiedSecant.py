@@ -2,12 +2,13 @@ import sympy as sp
 import time
 from phase_2.roundOff import *
 
-def modified_secant_method(func, x0, tol=1e-6, max_iter=100, sig="none", delta=1e-4):
+def modified_secant_method(func, x0, tol=1e-6, max_iter=100, sig="none"):
+    delta=1e-4
     start_time = time.time()
     x = sp.symbols('x')
     f = sp.sympify(func)
     steps = []  # Array to store steps
-
+    x**5-11*x**4+46*x**3-90*x**2+81*x-27
     for i in range(max_iter):
         # Calculate the function values
         f_x0 = float(f.subs(x, x0))
@@ -35,7 +36,7 @@ def modified_secant_method(func, x0, tol=1e-6, max_iter=100, sig="none", delta=1
         # Check for convergence
         if relError < tol:
             totTime = time.time() - start_time
-            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError)
+            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError,sig)
             x_rounded = Round_off(x_new, sig) if sig != "none" else x_new
             return x_rounded, i + 1, relError, correctSigFig, totTime, "Converged", steps
 
