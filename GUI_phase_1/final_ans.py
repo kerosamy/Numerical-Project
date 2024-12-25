@@ -91,9 +91,9 @@ class Ui_ansg(object):
 
         self.mainLayout.addLayout(self.leftLayout)
     def go_lobby(self):
-        self.parent.go_to_second_page()
+        self.parent._phase_1_go_to_second_page()
     def go_back(self):
-        self.parent.go_to_third_page(self.sizeMatrix,self.sig_f)
+        self.parent._phase_1_go_to_third_page(self.sizeMatrix,self.sig_f)
     def updateGrid_ans(self, num_rows,ans,time,sig,check=None,it=None):
         if(check!=None):
         

@@ -1,7 +1,11 @@
 import sympy as sp
-from roundOff import Round_off
+
+from phase_2.roundOff import *
+import time
 
 def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
+    start_time = time.perf_counter()
+
     x = sp.symbols('x')
     func = sp.sympify(func_str)
     g = sp.lambdify(x, func, 'math')
@@ -11,40 +15,49 @@ def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
     xi = x0
     prev_values = set()
 
+    steps = []  
+   
     while error > tol and iter_count < max_iter:
         try:
             xi_new = g(xi)
-            if isinstance(xi_new, complex):  # Handle complex numbers
-                return None, False
-            if abs(xi_new) > 1e6:  # Divergence detection
-                return None, False
-        except (OverflowError, ZeroDivisionError):  # Handle runtime errors
-            return None, False
+            if isinstance(xi_new, complex):
+                return None, iter_count, error, None, None, "Iteration resulted in a complex number. Check the function for validity.", steps
+            if abs(xi_new) > 1e6:
+                return None, iter_count, error, None, None, "The iteration is diverging. Values are exceeding acceptable limits.", steps
+        except OverflowError:
+            return None, iter_count, error, None, None, "Overflow error occurred during computation. The values may be too large.", steps
+        except ZeroDivisionError:
+            return None, iter_count, error, None, None, "Division by zero occurred. Ensure the function is well-defined for the input range.", steps
 
-        if xi_new in prev_values:  # Detect oscillations or cycles
-            return None, False
+        if xi_new in prev_values:
+            return None, iter_count, error, None, None, "The iteration is oscillating or cycling. Check the function or initial guess.", steps
+
         prev_values.add(xi_new)
+        error = abs((xi_new - xi) / (xi_new + (1e-12) * (xi == 0)))
 
-        error = abs((xi_new - xi) / (xi_new + (1e-12)*(xi==0)))
+        # Store the current step
+        steps.append({
+            "iteration": iter_count + 1,
+            "xi": xi,
+            "xi_new": xi_new,
+            "error": error
+        })
+
+
         xi = xi_new
         iter_count += 1
 
     converged = error <= tol
 
-    # Apply rounding to the final result
+    end_time = time.perf_counter()
+    execution_time = end_time - start_time
+
     xi_rounded = Round_off(xi, sf)
 
     # Calculate number of significant figures assured
     n_figures = int(-sp.log(2 * error * 100) / sp.log(10))
 
-    return xi_rounded, converged, n_figures
+    if not converged:
+        return xi_rounded, iter_count, error, n_figures, execution_time, "Couldn't reach result in maximum number of iterations", steps
 
-# Example Usage
-equation = "(2*x+3)**0.5"
-initial_guess = 4
-relative_error = 1e-6
-max_iterations = 100
-significant_figures = 4
-
-root, is_converged, figures_sure = fixed_point_iteration(equation, initial_guess, relative_error, max_iterations, significant_figures)
-print(f"Root: {root}, Converged: {is_converged}, Significant Figures Assured: {figures_sure}")
+    return xi_rounded, iter_count, error, n_figures, execution_time, "Converged", steps

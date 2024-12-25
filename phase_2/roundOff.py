@@ -1,6 +1,9 @@
 import numpy as np
 import math  
 
+import sympy as sp
+
+
 def Round_off(x, sf): 
     if(sf=='none'):
         return x
@@ -11,11 +14,14 @@ def Round_off(x, sf):
 
 
 
-def calculate_significant_figures(error):
+def calculate_significant_figures(error,sig):
+    if(sig=='none'):
+        sig = float('inf')
     if error == 0:
-        return float('inf')  # Infinite significant figures if no error
+        return float(sig)
     try:
-        return max(0, int(-math.log10(error)))  # Ensure the result is non-negative
+        return min(float(sig), int(-sp.log(2 * error * 100) / sp.log(10)))
     except ValueError:
-        return 0  # In case of a math domain error (if error > 1 or error < 0)
+        return 0 
+
 

@@ -35,22 +35,41 @@ class Ui_Form(object):
         self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
-        self.Start = QtWidgets.QPushButton(parent=Form)
+        self.Start_Phase1 = QtWidgets.QPushButton(parent=Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Start.sizePolicy().hasHeightForWidth())
-        self.Start.setSizePolicy(sizePolicy)
+        sizePolicy.setHeightForWidth(self.Start_Phase1.sizePolicy().hasHeightForWidth())
+        self.Start_Phase1.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(15)
         font.setBold(True)
-        self.Start.setFont(font)
-        self.Start.setStyleSheet("color:#03fc39;""background-color:black;")
-        self.Start.setObjectName("Start")
+        self.Start_Phase1.setFont(font)
+        self.Start_Phase1.setStyleSheet("color:#03fc39;""background-color:black;")
+        self.Start_Phase1.setObjectName("Start Phase 1")
         shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key.Key_Return), Form)
-        shortcut.activated.connect(self.Start.click)
-        self.Start.clicked.connect(self.go_to_second_page)
-        self.verticalLayout.addWidget(self.Start)
+        shortcut.activated.connect(self.Start_Phase1.click)
+        self.Start_Phase1.clicked.connect(self.go_to_second_page_phase_1)
+        self.verticalLayout.addWidget(self.Start_Phase1)
+
+
+        self.Start_Phase2 = QtWidgets.QPushButton(parent=Form)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Start_Phase2.sizePolicy().hasHeightForWidth())
+        self.Start_Phase2.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        self.Start_Phase2.setFont(font)
+        self.Start_Phase2.setStyleSheet("color:#5ae0da;""background-color:black;")
+        self.Start_Phase2.setObjectName("Start Phase 2")
+        self.verticalLayout.addWidget(self.Start_Phase2)
+        self.Start_Phase2.clicked.connect(self.go_to_second_page_phase_2)
+
+
+
         self.Exit = QtWidgets.QPushButton(parent=Form)
         font = QtGui.QFont()
         font.setBold(True)
@@ -65,13 +84,16 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.Exit)
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
-    def go_to_second_page(self):
-       self.parent.go_to_second_page()
+    def go_to_second_page_phase_1(self):
+       self.parent._phase_1_go_to_second_page()
+    def go_to_second_page_phase_2(self):
+       self.parent._phase_2_go_to_second_page()   
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.Welcome.setText(_translate("Form", "Welcome To Numerical Project"))
-        self.Start.setText(_translate("Form", "Start"))
+        self.Start_Phase1.setText(_translate("Form", "Start Phase 1"))
+        self.Start_Phase2.setText(_translate("Form", "Start Phase 2"))
         self.Exit.setText(_translate("Form", "Exit"))
 if __name__ == "__main__":
     import sys

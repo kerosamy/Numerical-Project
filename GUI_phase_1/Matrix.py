@@ -268,7 +268,7 @@ class Ui_Dialog(object):
                 
 
     def go_back(self):
-        self.parent.go_to_second_page()
+        self.parent._phase_1_go_to_second_page()
 
     def toggle_sidebar(self):
         """Toggle the visibility of the sidebar when the Solve button is clicked."""
@@ -319,7 +319,7 @@ class Ui_Dialog(object):
             method = self.choosed.text()
             num_rows =  self.temp.text()
             if(method=="Gauss-Seidel" or method=="Jacobi"):
-                self.parent.go_to_fourth_page(value=int(num_rows),A=matrix,B=last_cloumn,method=method)
+                self.parent._phase_1_go_to_fourth_page(value=int(num_rows),A=matrix,B=last_cloumn,method=method)
             else:
              method_continue = ""
              if(method=="LU Decomposition"):
@@ -328,7 +328,7 @@ class Ui_Dialog(object):
              if (((not np.all(np.linalg.eigvals(matrix) > 0)) or (not is_symmetric(matrix)))and (method=="LU DecompositionCholesky Form") ):
                    QtWidgets.QMessageBox.warning(None, "Invalid Input", "not postive definite or no symmetric")
                    return  
-             self.parent.go_to_fifth_page(method=method,A=matrix,B=last_cloumn,)    
+             self.parent._phase_1_go_to_fifth_page(method=method,A=matrix,B=last_cloumn,)    
 
 
 

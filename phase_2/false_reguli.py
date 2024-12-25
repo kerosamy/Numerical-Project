@@ -1,31 +1,48 @@
 import sympy as sp
-from roundOff import *
+
+from phase_2.roundOff import *
 import time
 import math
 
-def regula_falsi_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf=4):
+def regula_falsi_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
+
     start_time = time.perf_counter()
     x = sp.symbols('x')
     func = sp.sympify(func_str)
     f = sp.lambdify(x, func, 'math')
 
     xr = None
+
+    steps = []  # Array to store steps
+
     for itr in range(max_iter):
         fxl = f(xl)
         fxu = f(xu)
 
-        if fxl * fxu > 0:
-            return None, None, None, None, None  # Indicating no root is present within the interval
-        
+        # Prevent division by zero
         if fxu - fxl == 0:
-            print("Division by ZERO")
-            return None, None, None, None, None  # Indicating no root is present within the interval
-        
+            return None, itr, None, None, None, "Division by ZERO Error", steps
+
         xr_new = (xl * fxu - xu * fxl) / (fxu - fxl)
+        fxr = f(xr_new)
         error = abs((xr_new - (xr if xr else 1e9)) / (xr_new + 1e-12))
         xr = xr_new
 
-        if f(xl) * f(xr) < 0:
+        # Store the current step
+        steps.append({
+            "iteration": itr + 1,
+            "xl": xl,
+            "xu": xu,
+            "xr": xr_new,
+            "fxl": fxl,
+            "fxu": fxu,
+            "fxr": fxr,
+            "error": error
+        })
+
+        # Update bounds
+        if fxl * fxr < 0:
+
             xu = xr
         else:
             xl = xr
@@ -34,23 +51,13 @@ def regula_falsi_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf=4):
             break
 
     xr_rounded = Round_off(xr, sf)  # Assuming Round_off is defined elsewhere properly
-    n_figures = calculate_significant_figures(error)  # Ensure positive input for log
+
+    n_figures = calculate_significant_figures(error,sf)
     end_time = time.perf_counter()
     execution_time = end_time - start_time
 
-    return xr_rounded, itr, error, n_figures, execution_time
+    if itr == max_iter - 1:
+        return xr_rounded, itr + 1, error, n_figures, execution_time, "Couldn't reach result in maximum number of iterations", steps
 
-# Example Usage
-equation = "x^2-2"
-xl, xu = 0,4
-tol = 1e-6
-max_iter = 100
-sf = 4
-# Regula Falsi Method
-root_regula, iterations,error,figures_regula,exec_time = regula_falsi_method(equation, xl, xu, tol, max_iter, sf)
+    return xr_rounded, itr + 1, error, n_figures, execution_time, "Converged", steps
 
-print(f"Regula Falsi Root: {root_regula}, \n"
-      f"Iterations: {iterations}, \n"
-      f"Error: {error}, \n"
-      f"Significant Figures Assured: {figures_regula}, \n"
-      f"Execution Time: {exec_time}")
