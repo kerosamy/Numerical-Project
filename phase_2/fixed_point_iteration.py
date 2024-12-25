@@ -1,9 +1,11 @@
 import sympy as sp
+
 from phase_2.roundOff import *
 import time
 
 def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
     start_time = time.perf_counter()
+
     x = sp.symbols('x')
     func = sp.sympify(func_str)
     g = sp.lambdify(x, func, 'math')
@@ -12,6 +14,7 @@ def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
     error = float('inf')
     xi = x0
     prev_values = set()
+
     steps = []  
    
     while error > tol and iter_count < max_iter:
@@ -40,12 +43,15 @@ def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
             "error": error
         })
 
+
         xi = xi_new
         iter_count += 1
 
     converged = error <= tol
+
     end_time = time.perf_counter()
     execution_time = end_time - start_time
+
     xi_rounded = Round_off(xi, sf)
 
     # Calculate number of significant figures assured

@@ -1,10 +1,11 @@
 import sympy as sp
+
 from phase_2.roundOff import *
 import time
 import math
 
-
 def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
+
     start_time = time.perf_counter()
     x = sp.symbols('x')
     func = sp.sympify(func_str)
@@ -13,11 +14,11 @@ def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
     fxu = f(xu)
     xr = None
     steps = [] 
-
     for itr in range(max_iter):
         xr_new = (xl + xu) / 2
         fxr_new = f(xr_new)
         error = abs((xr_new - (xr if xr else 1e9)) / (xr_new + 1e-12))
+
         # Store the current step
         steps.append({
             "iteration": itr + 1,
@@ -33,6 +34,7 @@ def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
         if fxr_new == 0 or abs(xu - xl) < tol:
             xr = xr_new
             break
+
         if fxl * fxr_new < 0:
             xu = xr_new
             fxu = fxr_new
@@ -40,6 +42,7 @@ def bisection_method(func_str, xl, xu, tol=1e-6, max_iter=100, sf='none'):
             xl = xr_new
             fxl = fxr_new
         xr = xr_new
+
 
     xr_rounded = Round_off(xr, sf)
     n_figures = calculate_significant_figures(error,sf)
