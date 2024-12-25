@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+import math
 
 class Ui_Points(object):
     def setupUi(self, Dialog ,parent):
@@ -138,7 +138,7 @@ class Ui_Points(object):
          x0 = float(self.input_X0.text())
          x1 = float(self.input_X1.text())
          if(self.input_error.text()==""):
-            error=0.0005
+            error=1e-6
          else:
             error = float(self.input_error.text())
          if(self.input_Iteration.text()==""):
@@ -164,9 +164,25 @@ class Ui_Points(object):
           QtWidgets.QMessageBox.warning(None, "Invalid Input", "Please ensure:\n- x0 (float)")
           return
      if(self.method=="Regula_Falsi" or self.method=="Bisecting"):
-        result1 = eval(self.equation, {"x": x0, "__builtins__": None})
-        result2 = eval(self.equation, {"x": x1, "__builtins__": None})
-        if(result2*result1>0):
+        safe_dict = {
+            "x": x0,
+            "sin": math.sin,
+            "cos": math.cos,
+            "tan": math.tan,
+            "log": math.log,
+            "ln": math.log,
+            "exp": math.exp,
+             "__builtins__": None
+            }
+        result1 = eval(self.equation, {"x": x0, "__builtins__": safe_dict})
+        result2 = eval(self.equation, {"x": x1, "__builtins__": safe_dict})
+        if(result2*result1>=0):
+            if(result1==0):
+                QtWidgets.QMessageBox.warning(None, "Invalid Input", "X0 is root")
+                return
+            if(result2==0):
+                QtWidgets.QMessageBox.warning(None, "Invalid Input", "X1 is root")
+                return
             QtWidgets.QMessageBox.warning(None, "Invalid Input", "No roots or even number of roots")
             return
         elif(result1>0):

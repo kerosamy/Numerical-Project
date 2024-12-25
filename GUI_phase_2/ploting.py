@@ -38,7 +38,7 @@ class PlotDialog(QDialog):
             func_str = self.equation
             x = np.linspace(x_min, x_max, num_points)
 
-            func = eval(f"lambda x: {func_str}")
+            func = eval(f"lambda x: {func_str}", {"sin": np.sin, "cos": np.cos, "tan": np.tan, "log": np.log, "ln": np.log, "exp": np.exp})
             y = func(x)
 
             plt.style.use('dark_background')
@@ -64,7 +64,7 @@ class PlotDialog(QDialog):
 
             if draw_line:
                 plt.plot(x, x, color='magenta', linestyle='--', linewidth=2, label='y = x')
-
+            plt.ylim(-10, 10)
             plt.show()
             self.accept()
 
