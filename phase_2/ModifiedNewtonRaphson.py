@@ -24,7 +24,7 @@ def modified_newton_raphson(func, x0, tol, max_iter, sig='none'):
         denominator = fpx**2 - fx * fppx
 
         if abs(denominator) == 0:
-            totTime = time.time() - startTime
+            totTime = time.perf_counter() - startTime
             return None, None, None, None, totTime, "Division by zero", steps
 
         x_next = x0 - (fx * fpx) / denominator
@@ -42,16 +42,13 @@ def modified_newton_raphson(func, x0, tol, max_iter, sig='none'):
         })
 
         if relError < tol:
-            totTime = time.time() - startTime
-            if relError == 0:
-                correctSigFig = sig  
-            else:
-                correctSigFig = min(sig, int(-sp.log(2 * relError * 100) / sp.log(10)))
+            totTime = time.perf_counter() - startTime
+            correctSigFig = calculate_significant_figures(relError,sig)
             return Round_off(float(x_next), sig), i+1, relError, correctSigFig, totTime, "Converged",steps
 
         x0 = x_next
 
-    totTime = time.time() - startTime
+    totTime = time.perf_counter() - startTime
     return Round_off(float(x_next), sig), max_iter, relError, correctSigFig, totTime, "Exceeded maximum iterations", steps
 
 

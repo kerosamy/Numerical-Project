@@ -3,7 +3,7 @@ import time
 from phase_2.roundOff import *
 
 def newton_raphson(func, x0, tol, max_iter, sig='none'):
-    start_time = time.time()  
+    start_time = time.perf_counter()  
     x = sp.symbols('x')
     f = sp.sympify(func)
     f_prime = sp.diff(f, x)
@@ -15,7 +15,7 @@ def newton_raphson(func, x0, tol, max_iter, sig='none'):
         fpx = f_prime.subs(x, x0).evalf()  
 
         if abs(fpx) == 0:
-            totTime = time.time() - start_time
+            totTime = time.perf_counter() - start_time
             print(f"Division by zero at Iteration {i+1}")
             return None, None, None, None, totTime, "Division by zero", steps
 
@@ -33,14 +33,14 @@ def newton_raphson(func, x0, tol, max_iter, sig='none'):
         })
 
         if relError < tol:
-            totTime = time.time() - start_time
-            correctSigFig = 0 if relError < 1e-20 else calculate_significant_figures(relError,sig)
+            totTime = time.perf_counter() - start_time
+            correctSigFig = calculate_significant_figures(relError,sig)
             x_rounded = Round_off(float(x_next), sig) if sig != "none" else x_next
             return x_rounded, i + 1, relError, correctSigFig, totTime, "Converged", steps
 
         x0 = x_next
 
-    totTime = time.time() - start_time
+    totTime = time.perf_counter() - start_time
     print("Exceeded the maximum number of iterations")
     return None, max_iter, None, None, totTime, "Exceeded the maximum number of iterations", steps
 

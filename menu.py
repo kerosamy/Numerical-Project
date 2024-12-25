@@ -47,8 +47,6 @@ class Ui_Form(object):
         self.Start_Phase1.setFont(font)
         self.Start_Phase1.setStyleSheet("color:#03fc39;""background-color:black;")
         self.Start_Phase1.setObjectName("Start Phase 1")
-        shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key.Key_Return), Form)
-        shortcut.activated.connect(self.Start_Phase1.click)
         self.Start_Phase1.clicked.connect(self.go_to_second_page_phase_1)
         self.verticalLayout.addWidget(self.Start_Phase1)
 
@@ -67,6 +65,8 @@ class Ui_Form(object):
         self.Start_Phase2.setObjectName("Start Phase 2")
         self.verticalLayout.addWidget(self.Start_Phase2)
         self.Start_Phase2.clicked.connect(self.go_to_second_page_phase_2)
+        shortcut = QtGui.QShortcut(QtGui.QKeySequence(QtCore.Qt.Key.Key_Return), Form)
+        shortcut.activated.connect(self.Start_Phase2.click)
 
 
 

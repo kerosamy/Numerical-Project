@@ -49,7 +49,7 @@ def fixed_point_iteration(func_str, x0, tol, max_iter, sf=4):
     xi_rounded = Round_off(xi, sf)
 
     # Calculate number of significant figures assured
-    n_figures = int(-sp.log(2 * error * 100) / sp.log(10))
+    n_figures = calculate_significant_figures(error,sf)
 
     if not converged:
         return xi_rounded, iter_count, error, n_figures, execution_time, "Couldn't reach result in maximum number of iterations", steps
